@@ -2,21 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About Me</title>
+  <title>Ansh Sharma</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      background: #0b0b0b;
+      color: #e5e5e5;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #121212;
+      padding: 40px 50px;
+      border-radius: 12px;
+      text-align: center;
+      width: 320px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 30px;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .links a {
+      padding: 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #7fff00;
+      border: 1px solid #222;
+      transition: all 0.25s ease;
+    }
+
+    .links a:hover {
+      background: #7fff00;
+      color: #000;
+    }
+
+    .home {
+      margin-top: 25px;
+      font-size: 0.85rem;
+    }
+
+    .home a {
+      color: #666;
+      text-decoration: none;
+    }
+
+    .home a:hover {
+      color: #aaa;
+    }
+  </style>
 </head>
+
 <body>
 
-  <h1>Ansh Sharma</h1>
-  <p>
-    <a href="https://www.linkedin.com/in/anshsharma-sec" target="_blank">
-      LinkedIn
-    </a>
-  </p>
-  <p>
-    <a href="https://github.com/ansh-sec" target="_blank">
-      GitHub
-    </a>
-  </p>
+  <div class="card">
+    <h1>Ansh Sharma</h1>
+    <div class="subtitle">CSE • Cybersecurity • Builder</div>
+
+    <div class="links">
+      <a href="https://www.linkedin.com/in/anshsharma-sec" target="_blank">
+        LinkedIn
+      </a>
+
+      <a href="https://github.com/ansh-sec" target="_blank">
+        GitHub
+      </a>
+
+      <!-- add more links below -->
+      <!-- <a href="#">Twitter</a> -->
+      <!-- <a href="#">Blog</a> -->
+    </div>
+
+    <div class="home">
+      <a href="/">← back to home</a>
+    </div>
+  </div>
 
 </body>
 </html>
