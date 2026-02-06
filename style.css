@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  height: 100vh;
+  background: #0b0b0b;
+  color: #e5e5e5;
+  font-family: monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  text-align: center;
+}
+
+nav {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+a {
+  color: #7fff00;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #fff;
+}
