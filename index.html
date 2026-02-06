@@ -1,64 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anshlog | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anshlog</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #0f172a, #020617);
+      color: #e5e7eb;
+      overflow-x: hidden;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1.5rem;
+      background: rgba(2, 6, 23, 0.6);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    nav a {
+      color: #c7d2fe;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0%;
+      height: 2px;
+      background: #6366f1;
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    header {
+      text-align: center;
+      padding: 6rem 1rem 4rem;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #818cf8, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeUp 1s ease forwards;
+    }
+
+    header p {
+      margin-top: 1rem;
+      color: #94a3b8;
+      animation: fadeUp 1.2s ease forwards;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      padding: 2rem 4rem 4rem;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(99,102,241,0.15), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: #6366f1;
+      box-shadow: 0 20px 40px rgba(99,102,241,0.15);
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+      color: #e0e7ff;
+    }
+
+    .card p {
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="blob-c">
-    <div class="shape-blob"></div>
-    <div class="shape-blob one"></div>
-    <div class="shape-blob two"></div>
-</div>
-    <div class="background-blobs"></div>
-    
-    <main class="main-container">
-        <header class="navbar">
-            <div class="logo">ANSHLOG<span>.</span></div>
-            <div class="status-badge">Available for Projects</div>
-        </header>
 
-        <section class="hero">
-            <h1>Experiments & <br><span class="gradient-text">Controlled Chaos</span></h1>
-            <p>A digital logbook documenting cybersecurity research, Linux builds, and experimental development.</p>
-        </section>
+  <nav>
+    <a href="/login">Fake Login Lab</a>
+    <a href="/dev">About / Dev</a>
+    <a href="/rose">Rose Day</a>
+    <a href="/linux">Linux for Hackers</a>
+  </nav>
 
-        <nav class="links-grid">
-            <a href="/login" class="card">
-                <div class="card-icon">🔐</div>
-                <h3>Fake Login Lab</h3>
-                <p>Security simulation environment.</p>
-                <span class="arrow">→</span>
-            </a>
-            
-            <a href="/dev" class="card">
-                <div class="card-icon">🛠️</div>
-                <h3>About / Dev</h3>
-                <p>Core architecture and technical logs.</p>
-                <span class="arrow">→</span>
-            </a>
+  <header>
+    <h1>Anshlog</h1>
+    <p>Cyber • Experiments • Clean Chaos</p>
+  </header>
 
-            <a href="/rose" class="card">
-                <div class="card-icon">🌹</div>
-                <h3>Rose Day</h3>
-                <p>Interactive event module logs.</p>
-                <span class="arrow">→</span>
-            </a>
+  <section class="grid">
+    <div class="card" onclick="go('/login')">
+      <h3>Fake Login Lab</h3>
+      <p>Phishing demo pages. For learning, not stupidity.</p>
+    </div>
 
-            <a href="/linux" class="card">
-                <div class="card-icon">🐧</div>
-                <h3>Linux for Hackers</h3>
-                <p>Advanced shell and kernel resources.</p>
-                <span class="arrow">→</span>
-            </a>
-        </nav>
+    <div class="card" onclick="go('/dev')">
+      <h3>About / Dev</h3>
+      <p>Who I am, what I build, and why I break things.</p>
+    </div>
 
-        <footer class="footer">
-            <p>&copy; 2026 Ansh Sharma. All rights reserved.</p>
-        </footer>
-    </main>
+    <div class="card" onclick="go('/rose')">
+      <h3>Rose Day</h3>
+      <p>A soft page in a not-so-soft site 🌹</p>
+    </div>
+
+    <div class="card" onclick="go('/linux')">
+      <h3>Linux for Hackers</h3>
+      <p>Configs, tools, mindset. No Ubuntu tutorials.</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Anshlog — built with caffeine & bad ideas
+  </footer>
+
+  <script>
+    function go(path) {
+      window.location.href = path;
+    }
+  </script>
+
 </body>
 </html>
