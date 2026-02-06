@@ -30,14 +30,13 @@
 .two { background: rgba(59, 130, 246, 0.15); top: 40%; left: 30%; width: 300px; height: 300px; }
 
 body {
-    background-color: var(--bg);
-    color: var(--text-main);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    line-height: 1.6;
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
-    overflow-x: hidden;
+    background-color: #f8fafc; /* Base color */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%), 
+        radial-gradient(at 100% 0%, rgba(147, 51, 234, 0.1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.1) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(147, 51, 234, 0.15) 0px, transparent 50%);
+    background-attachment: fixed;
 }
 
 /* Subtle background decoration */
