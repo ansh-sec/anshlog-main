@@ -1,41 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Anshlog</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANSHLOG // COMMAND_CENTER</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <canvas id="canvas"></canvas>
 
-  <aside class="rail">
-    <div class="logo">ANSHLOG</div>
-    <div class="rail-text">
-      experiments<br>
-      logs<br>
-      systems<br>
-      mistakes
-    </div>
-  </aside>
+    <div class="overlay"></div>
 
-  <section class="content">
-    <header>
-      <h1>
-        THIS IS NOT A WEBSITE.<br>
-        IT’S A WORKSPACE.
-      </h1>
-      <p>
-        A place where half-finished ideas live longer than motivation.
-        Everything here exists because curiosity beat comfort.
-      </p>
-    </header>
+    <main class="dashboard">
+        <header class="top-bar">
+            <div class="sys-info">
+                <span class="pulse"></span>
+                <span class="breadcrumb">SYSTEM / ROOT / ANSHLOG</span>
+            </div>
+            <div class="clock" id="clock">00:00:00</div>
+        </header>
 
-    <nav class="links">
-      <a href="/login"><span>01</span> Fake Login Lab</a>
-      <a href="/dev"><span>02</span> About / Dev</a>
-      <a href="/rose"><span>03</span> Rose Day</a>
-      <a href="/linux"><span>04</span> Linux for Hackers</a>
-    </nav>
-  </section>
+        <section class="hero-section">
+            <div class="glitch-wrapper">
+                <h1 class="main-title" data-text="ANSHLOG">ANSHLOG</h1>
+            </div>
+            <p id="typewriter" class="typewriter"></p>
+        </section>
 
+        <nav class="nav-interface">
+            <a href="/login" class="nav-item">
+                <div class="item-content">
+                    <span class="tag">SEC_LAB</span>
+                    <h3>Fake Login Lab</h3>
+                    <p>Credential harvesting simulation environment.</p>
+                </div>
+                <div class="corner"></div>
+            </a>
+            
+            <a href="/dev" class="nav-item">
+                <div class="item-content">
+                    <span class="tag">DEV_INFO</span>
+                    <h3>About / Dev</h3>
+                    <p>Core architecture and maintainer logs.</p>
+                </div>
+                <div class="corner"></div>
+            </a>
+
+            <a href="/rose" class="nav-item">
+                <div class="item-content">
+                    <span class="tag">SOCIAL</span>
+                    <h3>Rose Day</h3>
+                    <p>Special event module: Romantic protocols.</p>
+                </div>
+                <div class="corner"></div>
+            </a>
+
+            <a href="/linux" class="nav-item">
+                <div class="item-content">
+                    <span class="tag">KNOWLEDGE</span>
+                    <h3>Linux for Hackers</h3>
+                    <p>Advanced shell scripting and kernel exploits.</p>
+                </div>
+                <div class="corner"></div>
+            </a>
+        </nav>
+
+        <footer class="bottom-bar">
+            <div class="stat">CPU: <span class="highlight">2.4%</span></div>
+            <div class="stat">MEM: <span class="highlight">1.2GB/16GB</span></div>
+            <div class="stat">UPLOADS: <span class="highlight">STABLE</span></div>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
