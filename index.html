@@ -3,75 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ANSHLOG // COMMAND_CENTER</title>
+    <title>Anshlog | Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-
-    <div class="overlay"></div>
-
-    <main class="dashboard">
-        <header class="top-bar">
-            <div class="sys-info">
-                <span class="pulse"></span>
-                <span class="breadcrumb">SYSTEM / ROOT / ANSHLOG</span>
-            </div>
-            <div class="clock" id="clock">00:00:00</div>
+    <div class="background-blobs"></div>
+    
+    <main class="main-container">
+        <header class="navbar">
+            <div class="logo">ANSHLOG<span>.</span></div>
+            <div class="status-badge">Available for Projects</div>
         </header>
 
-        <section class="hero-section">
-            <div class="glitch-wrapper">
-                <h1 class="main-title" data-text="ANSHLOG">ANSHLOG</h1>
-            </div>
-            <p id="typewriter" class="typewriter"></p>
+        <section class="hero">
+            <h1>Experiments & <br><span class="gradient-text">Controlled Chaos</span></h1>
+            <p>A digital logbook documenting cybersecurity research, Linux builds, and experimental development.</p>
         </section>
 
-        <nav class="nav-interface">
-            <a href="/login" class="nav-item">
-                <div class="item-content">
-                    <span class="tag">SEC_LAB</span>
-                    <h3>Fake Login Lab</h3>
-                    <p>Credential harvesting simulation environment.</p>
-                </div>
-                <div class="corner"></div>
+        <nav class="links-grid">
+            <a href="/login" class="card">
+                <div class="card-icon">🔐</div>
+                <h3>Fake Login Lab</h3>
+                <p>Security simulation environment.</p>
+                <span class="arrow">→</span>
             </a>
             
-            <a href="/dev" class="nav-item">
-                <div class="item-content">
-                    <span class="tag">DEV_INFO</span>
-                    <h3>About / Dev</h3>
-                    <p>Core architecture and maintainer logs.</p>
-                </div>
-                <div class="corner"></div>
+            <a href="/dev" class="card">
+                <div class="card-icon">🛠️</div>
+                <h3>About / Dev</h3>
+                <p>Core architecture and technical logs.</p>
+                <span class="arrow">→</span>
             </a>
 
-            <a href="/rose" class="nav-item">
-                <div class="item-content">
-                    <span class="tag">SOCIAL</span>
-                    <h3>Rose Day</h3>
-                    <p>Special event module: Romantic protocols.</p>
-                </div>
-                <div class="corner"></div>
+            <a href="/rose" class="card">
+                <div class="card-icon">🌹</div>
+                <h3>Rose Day</h3>
+                <p>Interactive event module logs.</p>
+                <span class="arrow">→</span>
             </a>
 
-            <a href="/linux" class="nav-item">
-                <div class="item-content">
-                    <span class="tag">KNOWLEDGE</span>
-                    <h3>Linux for Hackers</h3>
-                    <p>Advanced shell scripting and kernel exploits.</p>
-                </div>
-                <div class="corner"></div>
+            <a href="/linux" class="card">
+                <div class="card-icon">🐧</div>
+                <h3>Linux for Hackers</h3>
+                <p>Advanced shell and kernel resources.</p>
+                <span class="arrow">→</span>
             </a>
         </nav>
 
-        <footer class="bottom-bar">
-            <div class="stat">CPU: <span class="highlight">2.4%</span></div>
-            <div class="stat">MEM: <span class="highlight">1.2GB/16GB</span></div>
-            <div class="stat">UPLOADS: <span class="highlight">STABLE</span></div>
+        <footer class="footer">
+            <p>&copy; 2026 Ansh Sharma. All rights reserved.</p>
         </footer>
     </main>
-
-    <script src="script.js"></script>
 </body>
 </html>
