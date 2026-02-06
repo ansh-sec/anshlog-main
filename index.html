@@ -6,20 +6,31 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
-    <h1>ANSHLOG</h1>
+  <div class="frame">
+    <main class="terminal">
+      <div class="header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+      </div>
 
-    <p class="tagline">Experiments. Logs. Chaos — controlled.</p>
-    <small class="sub">Personal cyber lab. Nothing here is accidental.</small>
+      <h1>ANSHLOG</h1>
 
-    <hr>
+      <p class="tagline">Experiments. Logs. Chaos — controlled.</p>
 
-    <nav>
-      <a href="/login">→ Fake Login Lab</a>
-      <a href="/dev">→ About / Dev</a>
-      <a href="/rose">→ Rose Day</a>
-      <a href="/linux">→ Linux for Hackers</a>
-    </nav>
-  </main>
+      <div class="prompt">
+        <span class="user">ansh@lab</span>:<span class="path">~</span>$ choose_module
+      </div>
+
+      <nav>
+        <a href="/login">[1] Fake Login Lab</a>
+        <a href="/dev">[2] About / Dev</a>
+        <a href="/rose">[3] Rose Day</a>
+        <a href="/linux">[4] Linux for Hackers</a>
+      </nav>
+
+      <p class="hint">Type mentally. Click physically.</p>
+    </main>
+  </div>
 </body>
 </html>
