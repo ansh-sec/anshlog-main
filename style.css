@@ -173,9 +173,9 @@ body {
 }
 
 .threat-map iframe {
-  width: 100vw;      /* cinematic full width */
-  max-width: 100%;   /* keeps layout sane */
-  height: 90vh;      /* big, dominant */
+  width: 800vw;      /* cinematic full width */
+  max-width: 800%;   /* keeps layout sane */
+  height: 720vh;      /* big, dominant */
   max-height: 700px; /* control – prevents absurd height on big screens */
   border: none;
   border-radius: 0;
