@@ -1,204 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <title>Anshlog :: Command Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anshlog</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Segoe UI", system-ui, sans-serif;
+      font-family: 'Share Tech Mono', monospace;
     }
 
     body {
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #0f172a, #020617);
-      color: #e5e7eb;
-      overflow-x: hidden;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: 1.5rem;
-      background: rgba(2, 6, 23, 0.6);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    nav a {
-      color: #c7d2fe;
-      text-decoration: none;
-      font-weight: 500;
-      position: relative;
-    }
-
-    nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -4px;
-      width: 0%;
-      height: 2px;
-      background: #6366f1;
-      transition: width 0.3s ease;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    header {
-      text-align: center;
-      padding: 6rem 1rem 4rem;
-    }
-
-    header h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, #818cf8, #22d3ee);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: fadeUp 1s ease forwards;
-    }
-
-    header p {
-      margin-top: 1rem;
-      color: #94a3b8;
-      animation: fadeUp 1.2s ease forwards;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 2rem;
-      padding: 2rem 4rem 4rem;
-    }
-
-    .card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 16px;
-      padding: 2rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
+      height: 100vh;
+      background:
+        radial-gradient(circle at top, #020617, #000),
+        linear-gradient(rgba(0,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,255,0.04) 1px, transparent 1px);
+      background-size: cover, 40px 40px, 40px 40px;
+      color: #c7f9ff;
       overflow: hidden;
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent, rgba(99,102,241,0.15), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
+    /* ───── Layout ───── */
+    .layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      grid-template-rows: 70px 1fr;
+      height: 100%;
     }
 
-    .card:hover::before {
+    /* ───── Sidebar ───── */
+    aside {
+      grid-row: 1 / span 2;
+      background: rgba(2,6,23,0.85);
+      border-right: 1px solid rgba(0,255,255,0.15);
+      padding: 1.5rem;
+    }
+
+    aside h2 {
+      color: #00f6ff;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 15px #00f6ff;
+    }
+
+    aside a {
+      display: block;
+      color: #9ff;
+      text-decoration: none;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    aside a:hover {
       opacity: 1;
+      color: #00f6ff;
     }
 
-    .card:hover {
-      transform: translateY(-8px) scale(1.02);
-      border-color: #6366f1;
-      box-shadow: 0 20px 40px rgba(99,102,241,0.15);
+    /* ───── Top Bar ───── */
+    header {
+      grid-column: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      border-bottom: 1px solid rgba(0,255,255,0.15);
+      background: rgba(2,6,23,0.7);
     }
 
-    .card h3 {
-      margin-bottom: 0.5rem;
-      color: #e0e7ff;
+    .status {
+      color: #00ff9c;
+      text-shadow: 0 0 10px #00ff9c;
     }
 
-    .card p {
-      color: #94a3b8;
-      font-size: 0.95rem;
-    }
-
-    footer {
-      text-align: center;
+    /* ───── Main ───── */
+    main {
+      grid-column: 2;
       padding: 2rem;
-      color: #64748b;
-      font-size: 0.9rem;
+      position: relative;
     }
 
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .title {
+      font-size: 3rem;
+      color: #00f6ff;
+      text-shadow: 0 0 25px #00f6ff;
+      margin-bottom: 0.5rem;
     }
+
+    .subtitle {
+      color: #7dd3fc;
+      margin-bottom: 2rem;
+    }
+
+    /* ───── Modules ───── */
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .module {
+      padding: 1.5rem;
+      border: 1px solid rgba(0,255,255,0.2);
+      background: rgba(2,6,23,0.6);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .module:hover {
+      box-shadow: 0 0 25px rgba(0,255,255,0.3);
+      transform: translateY(-6px);
+    }
+
+    /* ───── Terminal ───── */
+    .terminal {
+      position: absolute;
+      right: 2rem;
+      bottom: 2rem;
+      width: 360px;
+      height: 220px;
+      background: rgba(2,6,23,0.9);
+      border: 1px solid rgba(0,255,255,0.3);
+      padding: 1rem;
+      font-size: 0.85rem;
+      overflow: hidden;
+    }
+
+    .terminal span {
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .ok { color: #00ff9c; }
   </style>
 </head>
-<body>
 
-  <nav>
+<body>
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside>
+    <h2>ANSHLOG</h2>
     <a href="/login">Fake Login Lab</a>
     <a href="/dev">About / Dev</a>
     <a href="/rose">Rose Day</a>
     <a href="/linux">Linux for Hackers</a>
-  </nav>
+  </aside>
 
+  <!-- Top -->
   <header>
-    <h1>Anshlog</h1>
-    <p>Cyber • Experiments • Clean Chaos</p>
+    <div class="status">OPERATION STATUS: ACTIVE</div>
+    <div id="clock"></div>
   </header>
 
-  <section class="grid">
-    <div class="card" onclick="go('/login')">
-      <h3>Fake Login Lab</h3>
-      <p>Phishing demo page of Instagram. <br> Contact to learn more.</p>
+  <!-- Main -->
+  <main>
+    <div class="title">Command Center</div>
+    <div class="subtitle">Cyber • Experiments • Controlled Chaos</div>
+
+    <section class="modules">
+      <div class="module" onclick="go('/login')">Fake Login Lab</div>
+      <div class="module" onclick="go('/dev')">About / Dev</div>
+      <div class="module" onclick="go('/rose')">Rose Day</div>
+      <div class="module" onclick="go('/linux')">Linux for Hackers</div>
+    </section>
+
+    <!-- Terminal -->
+    <div class="terminal" id="terminal">
+      <span class="ok">[OK] Firewall initialized</span>
+      <span class="ok">[OK] IDS running</span>
     </div>
+  </main>
 
-    <div class="card" onclick="go('/dev')">
-      <h3>About / Dev</h3>
-      <p>whoami</p>
-    </div>
+</div>
 
-    <div class="card" onclick="go('/rose')">
-      <h3>Rose Day</h3>
-      <p>A fun project for leisure</p>
-    </div>
+<script>
+  function go(p){ location.href = p }
 
-    <div class="card" onclick="go('/linux')">
-      <h3>Linux for Hackers</h3>
-      <p>Configs, tools. No Ubuntu tutorials.
-      <br> (Will be active soon) </p>
-    </div>
-  </section>
-<!-- <section class="threat-map">
-  <h2>Live Cyber Threat Activity</h2>
+  setInterval(()=>{
+    document.getElementById("clock").innerText =
+      new Date().toLocaleTimeString();
+  },1000);
 
-  <iframe 
-    src="https://threatmap.fortiguard.com/"
-    loading="lazy"
-    referrerpolicy="no-referrer"
-    sandbox="allow-scripts allow-same-origin"
-  ></iframe>
-</section> -->
+  const logs = [
+    "Scanning ports...",
+    "Threat analysis running",
+    "No anomalies detected",
+    "Monitoring traffic..."
+  ];
 
-  <footer>
-    <h3>More content coming soon</h3>
-    © 2026 Anshlog — built with caffeine & bad ideas
-  </footer>
-
-  <script>
-    function go(path) {
-      window.location.href = path;
-    }
-  </script>
-
+  setInterval(()=>{
+    const t = document.getElementById("terminal");
+    const s = document.createElement("span");
+    s.className = "ok";
+    s.textContent = "[OK] " + logs[Math.floor(Math.random()*logs.length)];
+    t.appendChild(s);
+    if(t.children.length > 8) t.removeChild(t.firstChild);
+  },2000);
+</script>
 </body>
 </html>
