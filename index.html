@@ -324,6 +324,9 @@ function pushLog(type, msg) {
   if (terminal.children.length > 25) {
     terminal.removeChild(terminal.firstChild);
   }
+   requestAnimationFrame(() => {
+    terminal.scrollTop = terminal.scrollHeight;
+  });
 }
 
 setInterval(() => {
