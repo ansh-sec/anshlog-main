@@ -9,6 +9,77 @@
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
   <style>
+
+  /* ───── Mobile Fix ───── */
+@media (max-width: 768px) {
+
+  body {
+    overflow-y: auto;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  aside {
+    grid-row: 1;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(0,255,255,0.15);
+  }
+
+  aside h2 {
+    margin-bottom: 1rem;
+  }
+
+  aside a {
+    margin-bottom: 0.6rem;
+  }
+
+  header {
+    grid-column: 1;
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  main {
+    grid-column: 1;
+    padding: 1.5rem 1rem 8rem;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    text-align: center;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .modules {
+    grid-template-columns: 1fr;
+  }
+
+  .terminal {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1rem;
+    width: 92%;
+    height: 180px;
+    z-index: 10;
+  }
+}
+
+    
     * {
       margin: 0;
       padding: 0;
