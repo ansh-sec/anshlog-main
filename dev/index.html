@@ -2,87 +2,142 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ansh Sharma</title>
+  <title>Anshlog :: Operator Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: 'Share Tech Mono', monospace;
     }
 
     body {
-      height: 100vh;
-      background: #0b0b0b;
-      color: #e5e5e5;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, monospace;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, #020617, #000),
+        linear-gradient(rgba(0,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,255,0.04) 1px, transparent 1px);
+      background-size: cover, 40px 40px, 40px 40px;
+      color: #c7f9ff;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 2rem;
     }
 
-    .card {
-      background: #121212;
-      padding: 40px 50px;
-      border-radius: 12px;
-      text-align: center;
-      width: 320px;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    .profile {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(2,6,23,0.85);
+      border: 1px solid rgba(0,255,255,0.25);
+      padding: 2.5rem;
+      box-shadow: 0 0 40px rgba(0,255,255,0.15);
+      position: relative;
     }
 
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
+    .profile::before {
+      content: "OPERATOR PROFILE";
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: #020617;
+      padding: 0 10px;
+      font-size: 0.75rem;
+      color: #00f6ff;
       letter-spacing: 1px;
     }
 
+    h1 {
+      font-size: 2.2rem;
+      color: #00f6ff;
+      text-shadow: 0 0 20px #00f6ff;
+      margin-bottom: 0.3rem;
+    }
+
     .subtitle {
+      font-size: 0.95rem;
+      color: #7dd3fc;
+      margin-bottom: 2rem;
+    }
+
+    .info {
       font-size: 0.9rem;
-      color: #888;
-      margin-bottom: 30px;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      color: #9ff;
     }
 
     .links {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.8rem;
     }
 
     .links a {
-      padding: 10px;
-      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(0,255,255,0.25);
       text-decoration: none;
-      color: #7fff00;
-      border: 1px solid #222;
-      transition: all 0.25s ease;
+      color: #c7f9ff;
+      transition: 0.25s;
     }
 
     .links a:hover {
-      background: #7fff00;
-      color: #000;
+      background: rgba(0,255,255,0.12);
+      box-shadow: 0 0 15px rgba(0,255,255,0.4);
+      color: #00f6ff;
     }
 
-    .home {
-      margin-top: 25px;
-      font-size: 0.85rem;
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #7dd3fc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
-    .home a {
-      color: #666;
+    .footer a {
+      color: #7dd3fc;
       text-decoration: none;
     }
 
-    .home a:hover {
-      color: #aaa;
+    .footer a:hover {
+      color: #00f6ff;
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .profile {
+        padding: 2rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="card">
+  <div class="profile">
     <h1>Ansh Sharma</h1>
     <div class="subtitle">CSE • Cybersecurity • Builder</div>
+
+    <div class="info">
+      Role: Student / Experimenter  
+      <br>
+      Focus: Security labs, Linux systems, web experiments  
+      <br>
+      Status: Actively building. Quietly learning.
+    </div>
 
     <div class="links">
       <a href="https://www.linkedin.com/in/anshsharma-sec" target="_blank">
@@ -93,7 +148,7 @@
         GitHub
       </a>
 
-     <a href="https://discordapp.com/users/rootshade_" target="_blank">
+      <a href="https://discordapp.com/users/rootshade_" target="_blank">
         Discord
       </a>
 
@@ -101,16 +156,14 @@
         Instagram
       </a>
 
-      <a href="mailto:ansh.csec@gmail.com" target="_blank">
-        Mail
+      <a href="mailto:ansh.csec@gmail.com">
+        Secure Mail
       </a>
-      <!-- add more links below -->
-      <!-- <a href="#">Twitter</a> -->
-      <!-- <a href="#">Blog</a> -->
     </div>
 
-    <div class="home">
-      <a href="/">← back to home</a>
+    <div class="footer">
+      <span>[STATUS] ONLINE</span>
+      <a href="/">← return to command center</a>
     </div>
   </div>
 
