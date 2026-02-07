@@ -194,6 +194,10 @@
     font-size: 0.9rem;
   }
 
+  .warn { color: #ffd166; }
+  .err  { color: #ff4d4d; text-shadow: 0 0 8px #ff4d4d; }
+
+      
   .modules {
     grid-template-columns: 1fr;
   }
@@ -262,20 +266,42 @@
   },1000);
 
   const logs = [
-    "Scanning ports...",
-    "Threat analysis running",
-    "No anomalies detected",
-    "Monitoring traffic..."
-  ];
+  { t: "OK",   m: "Scanning ports..." },
+  { t: "OK",   m: "Threat analysis running" },
+  { t: "OK",   m: "Monitoring traffic..." },
+  { t: "OK",   m: "Network interface up" },
+  { t: "WARN", m: "Unusual packet rate detected" },
+  { t: "OK",   m: "Firewall initialized" },
+  { t: "OK",   m: "IDS running" },
+  { t: "WARN", m: "Latency spike on eth0" },
+  { t: "ERR",  m: "Auth probe blocked" },
+  { t: "OK",   m: "All systems nominal" }
+];
 
-  setInterval(()=>{
-    const t = document.getElementById("terminal");
-    const s = document.createElement("span");
-    s.className = "ok";
-    s.textContent = "[OK] " + logs[Math.floor(Math.random()*logs.length)];
-    t.appendChild(s);
-    if(t.children.length > 8) t.removeChild(t.firstChild);
-  },2000);
+const terminal = document.getElementById("terminal");
+
+function pushLog(type, msg) {
+  const s = document.createElement("span");
+
+  if (type === "OK")   s.className = "ok";
+  if (type === "WARN") s.className = "warn";
+  if (type === "ERR")  s.className = "err";
+
+  s.textContent = `[${type}] ${msg}`;
+  terminal.appendChild(s);
+
+  // max scrollback
+  if (terminal.children.length > 25) {
+    terminal.removeChild(terminal.firstChild);
+  }
+}
+
+setInterval(() => {
+  const l = logs[Math.floor(Math.random() * logs.length)];
+  pushLog(l.t, l.m);
+}, 1800);
+
+  
 </script>
 </body>
 </html>
