@@ -1,340 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Anshlog :: Command Center</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Anshlog :: Command Center</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Share Tech Mono',monospace}
 
-  <style>
-
-  /* ───── Mobile Fix ───── */
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Share Tech Mono', monospace;
-    }
-
-    body {
-      height: 100vh;
-      background:
-        radial-gradient(circle at top, #020617, #000),
-        linear-gradient(rgba(0,255,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,255,0.04) 1px, transparent 1px);
-      background-size: cover, 40px 40px, 40px 40px;
-      color: #c7f9ff;
-      overflow: hidden;
-    }
-
-    /* ───── Layout ───── */
-    .layout {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      grid-template-rows: 70px 1fr;
-      height: 100%;
-    }
-
-    /* ───── Sidebar ───── */
-    aside {
-      grid-row: 1 / span 2;
-      background: rgba(2,6,23,0.85);
-      border-right: 1px solid rgba(0,255,255,0.15);
-      padding: 1.5rem;
-    }
-
-    aside h2 {
-      color: #00f6ff;
-      margin-bottom: 2rem;
-      text-shadow: 0 0 15px #00f6ff;
-    }
-
-    aside a {
-      display: block;
-      color: #9ff;
-      text-decoration: none;
-      margin-bottom: 1rem;
-      opacity: 0.8;
-    }
-
-    aside a:hover {
-      opacity: 1;
-      color: #00f6ff;
-    }
-
-    /* ───── Top Bar ───── */
-    header {
-      grid-column: 2;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 2rem;
-      border-bottom: 1px solid rgba(0,255,255,0.15);
-      background: rgba(2,6,23,0.7);
-    }
-
-    .status {
-      color: #00ff9c;
-      text-shadow: 0 0 10px #00ff9c;
-    }
-
-    /* ───── Main ───── */
-    main {
-      grid-column: 2;
-      padding: 2rem;
-      position: relative;
-    }
-
-    .title {
-      font-size: 3rem;
-      color: #00f6ff;
-      text-shadow: 0 0 25px #00f6ff;
-      margin-bottom: 0.5rem;
-    }
-
-    .subtitle {
-      color: #7dd3fc;
-      margin-bottom: 2rem;
-    }
-
-    /* ───── Modules ───── */
-    .modules {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .module {
-      padding: 1.5rem;
-      border: 1px solid rgba(0,255,255,0.2);
-      background: rgba(2,6,23,0.6);
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .module:hover {
-      box-shadow: 0 0 25px rgba(0,255,255,0.3);
-      transform: translateY(-6px);
-    }
-
-    /* ───── Terminal ───── */
-    .terminal {
-      position: absolute;
-      right: 2rem;
-      bottom: 2rem;
-      width: 360px;
-      height: 220px;
-      background: rgba(2,6,23,0.9);
-      border: 1px solid rgba(0,255,255,0.3);
-      padding: 1rem;
-      font-size: 0.85rem;
-      overflow: hidden;
-    }
-
-    .terminal span {
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-
-    .ok { color: #00ff9c; }
-
-    @media (max-width: 768px) {
-
-  body {
-    overflow-y: auto;
-  }
-
-  .layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-  }
-
-  aside {
-    grid-row: 1;
-    grid-column: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    border-right: none;
-    border-bottom: 1px solid rgba(0,255,255,0.15);
-  }
-
-  aside h2 {
-    margin-bottom: 1rem;
-  }
-
-  aside a {
-    margin-bottom: 0.6rem;
-  }
-
-  header {
-    grid-column: 1;
-    padding: 1rem;
-    flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
-  }
-
-  main {
-    grid-column: 1;
-    padding: 1.5rem 1rem 14rem;
-  }
-
-  .title {
-    font-size: 2.2rem;
-    text-align: center;
-  }
-
-  .subtitle {
-    text-align: center;
-    font-size: 0.9rem;
-  }
-
-  .warn { color: #ffd166; }
-  .err  { color: #ff4d4d; text-shadow: 0 0 8px #ff4d4d; }
-
-      
-  .modules {
-    grid-template-columns: 1fr;
-  }
-
-  .terminal {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 1rem;
-    width: 92%;
-    height: 150px;
-    z-index: 10;
-    font-size: 0.8rem;
-  }
+body{
+height:100vh;
+background:
+radial-gradient(circle at top,#020617,#000),
+linear-gradient(rgba(0,255,255,.04)1px,transparent 1px),
+linear-gradient(90deg,rgba(0,255,255,.04)1px,transparent 1px);
+background-size:cover,40px 40px,40px 40px;
+color:#c7f9ff;
+overflow:hidden;
+position:relative;
 }
 
-    
-  </style>
+/* sweep */
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background:linear-gradient(120deg,transparent 40%,rgba(0,255,255,.04),transparent 60%);
+animation:sweep 14s linear infinite;
+pointer-events:none;
+}
+@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+
+.layout{
+display:grid;
+grid-template-columns:240px 1fr;
+grid-template-rows:70px 1fr;
+height:100%;
+}
+
+/* sidebar */
+aside{
+grid-row:1/span 2;
+background:rgba(2,6,23,.85);
+border-right:1px solid rgba(0,255,255,.15);
+padding:1.5rem;
+}
+aside h2{color:#00f6ff;margin-bottom:2rem;text-shadow:0 0 15px #00f6ff}
+aside a{
+display:block;
+color:#9ff;
+text-decoration:none;
+margin-bottom:1rem;
+opacity:.75;
+}
+aside a:hover{opacity:1;color:#00f6ff}
+
+/* header */
+header{
+grid-column:2;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 2rem;
+border-bottom:1px solid rgba(0,255,255,.15);
+background:rgba(2,6,23,.7);
+}
+.status{color:#00ff9c;text-shadow:0 0 10px #00ff9c}
+.build{font-size:.75rem;opacity:.6}
+
+/* main */
+main{grid-column:2;padding:2rem;position:relative}
+.title{font-size:3rem;color:#00f6ff;text-shadow:0 0 25px #00f6ff}
+.subtitle{color:#7dd3fc;margin-bottom:1.4rem}
+
+.section-hint{
+font-size:.65rem;
+letter-spacing:2px;
+opacity:.45;
+margin:1.2rem 0 .6rem;
+}
+
+/* hud */
+.hud{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:1.2rem;
+margin-bottom:2rem;
+}
+.hud-card{
+padding:1rem;
+background:rgba(2,6,23,.55);
+border:1px solid rgba(0,255,255,.18);
+transition:.3s;
+}
+body.engaged .hud-card{
+box-shadow:0 0 18px rgba(0,255,255,.25);
+}
+.hud-label{font-size:.65rem;opacity:.6}
+.hud-value{margin-top:.3rem;font-size:1rem;color:#00f6ff}
+
+/* divider */
+.divider{
+height:1px;
+margin:2rem 0;
+background:linear-gradient(to right,transparent,rgba(0,255,255,.25),transparent);
+}
+
+/* modules */
+.modules{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:1.5rem;
+margin-bottom:3rem;
+}
+
+.module{
+position:relative;
+padding:1.8rem;
+min-height:120px;
+border:1px solid rgba(0,255,255,.25);
+background:rgba(2,6,23,.65);
+cursor:pointer;
+transition:.35s ease;
+overflow:hidden;
+}
+.module:hover{
+min-height:190px;
+transform:translateY(-6px);
+box-shadow:0 0 25px rgba(0,255,255,.35),inset 0 0 20px rgba(0,255,255,.08);
+}
+.module.focused{outline:1px dashed rgba(0,255,255,.6)}
+
+.module-title{font-size:1.1rem;color:#00f6ff}
+.module-desc{margin-top:.4rem;font-size:.75rem;opacity:.6}
+
+.module-details{
+margin-top:.8rem;
+font-size:.7rem;
+line-height:1.6;
+opacity:0;
+transform:translateY(10px);
+transition:.3s ease;
+}
+.module:hover .module-details,
+.module.locked .module-details{
+opacity:.75;
+transform:translateY(0);
+}
+
+.enter-btn{
+margin-top:.6rem;
+padding:.3rem .6rem;
+background:transparent;
+border:1px solid #00ff9c;
+color:#00ff9c;
+font-size:.65rem;
+cursor:pointer;
+}
+.enter-btn:hover{background:rgba(0,255,255,.1)}
+
+.module::after{
+content:"OPEN MODULE";
+position:absolute;
+bottom:1rem;
+right:1.2rem;
+font-size:.6rem;
+letter-spacing:1px;
+opacity:0;
+color:#00ff9c;
+transition:.25s;
+}
+.module:hover::after{opacity:1}
+
+/* notes */
+.notes{
+max-width:720px;
+padding:1.5rem;
+border:1px solid rgba(0,255,255,.18);
+background:rgba(2,6,23,.55);
+}
+.notes h3{color:#00f6ff;font-size:1rem;margin-bottom:.6rem}
+.notes p{font-size:.8rem;opacity:.75;line-height:1.6}
+
+/* anchor */
+.anchor{
+position:absolute;
+bottom:5.5rem;
+left:50%;
+transform:translateX(-50%);
+font-size:2.6rem;
+letter-spacing:4px;
+opacity:.14;
+text-shadow:0 0 40px rgba(0,255,255,.25);
+animation:pulse 4s ease-in-out infinite;
+pointer-events:none;
+}
+@keyframes pulse{50%{opacity:.08}}
+
+/* terminal */
+.terminal{
+position:absolute;
+right:2rem;
+bottom:2rem;
+width:360px;
+height:220px;
+background:rgba(2,6,23,.9);
+border:1px solid rgba(0,255,255,.3);
+padding:1rem;
+font-size:.85rem;
+overflow:hidden;
+}
+.terminal span{display:block;margin-bottom:.3rem}
+.ok{color:#00ff9c}
+.warn{color:#ffd166}
+.info{color:#7dd3fc}
+
+/* tip */
+.tip{
+position:fixed;
+bottom:1rem;
+left:1rem;
+font-size:.65rem;
+opacity:.45;
+}
+
+/* mobile */
+@media(max-width:768px){
+body{overflow-y:auto}
+.layout{grid-template-columns:1fr}
+aside{border-right:none;border-bottom:1px solid rgba(0,255,255,.15)}
+header,main{grid-column:1}
+.anchor{display:none}
+.terminal{
+position:fixed;
+left:50%;
+transform:translateX(-50%);
+bottom:1rem;
+width:92%;
+height:150px;
+}
+}
+</style>
 </head>
 
 <body>
 <div class="layout">
 
-  <!-- Sidebar -->
-  <aside>
-    <h2>ANSHLOG</h2>
-    <a href="/login">Fake Login Lab</a>
-    <a href="/dev">About / Dev</a>
-    <a href="/rose">Rose Day</a>
-    <a href="/linux">Linux for Hackers</a>
-  </aside>
+<aside>
+<h2>ANSHLOG</h2>
+<a href="/login">Fake Login Lab</a>
+<a href="/dev">About / Dev</a>
+<a href="/rose">Rose Day</a>
+<a href="/linux">Linux for Hackers</a>
+</aside>
 
-  <!-- Top -->
-  <header>
-    <div class="status">OPERATION STATUS: ACTIVE</div>
-    <div id="clock"></div>
-  </header>
+<header>
+<div class="status">OPERATION STATUS: ACTIVE</div>
+<div class="build">BUILD v0.3 / unstable • <span id="clock"></span></div>
+</header>
 
-  <!-- Main -->
-  <main>
-    <div class="title">Command Center</div>
-    <div class="subtitle">Cyber • Experiments • Controlled Chaos</div>
+<main id="main">
 
-    <section class="modules">
-      <div class="module" onclick="go('/login')">Fake Login Lab</div>
-      <div class="module" onclick="go('/dev')">About / Dev</div>
-      <div class="module" onclick="go('/rose')">Rose Day</div>
-      <div class="module" onclick="go('/linux')">Linux for Hackers</div>
-    </section>
+<div class="title">Command Center</div>
+<div class="subtitle">Cyber • Experiments • Controlled Chaos</div>
 
-    <!-- Terminal -->
-    <div class="terminal" id="terminal">
-      <span class="ok">[OK] Firewall initialized</span>
-      <span class="ok">[OK] IDS running</span>
-    </div>
-  </main>
+<section class="hud">
+<div class="hud-card"><div class="hud-label">SITE STATE</div><div class="hud-value">PUBLIC LAB</div></div>
+<div class="hud-card"><div class="hud-label">MODULES</div><div class="hud-value">4 AVAILABLE</div></div>
+<div class="hud-card"><div class="hud-label">FOCUS</div><div class="hud-value">LEARNING & BUILDING</div></div>
+<div class="hud-card"><div class="hud-label">UPDATE TYPE</div><div class="hud-value">STATIC</div></div>
+</section>
 
+<div class="divider"></div>
+<div class="section-hint">AVAILABLE MODULES</div>
+
+<section class="modules">
+<div class="module" data-name="Fake Login Lab" data-link="/login">
+<div class="module-title">Fake Login Lab</div>
+<div class="module-desc">Instagram credential demo</div>
+<div class="module-details">
+Simulated phishing-style login page.<br>
+Educational demo only.<br>
+<button class="enter-btn">ENTER MODULE</button>
+</div>
 </div>
 
+<div class="module" data-name="About / Dev" data-link="/dev">
+<div class="module-title">About / Dev</div>
+<div class="module-desc">Operator profile & links</div>
+<div class="module-details">
+Background, socials, intent.<br>
+Why this lab exists.<br>
+<button class="enter-btn">ENTER MODULE</button>
+</div>
+</div>
+
+<div class="module" data-name="Rose Day" data-link="/rose">
+<div class="module-title">Rose Day</div>
+<div class="module-desc">Visual experiment</div>
+<div class="module-details">
+Creative animation testing.<br>
+Pure front-end play.<br>
+<button class="enter-btn">ENTER MODULE</button>
+</div>
+</div>
+
+<div class="module" data-name="Linux for Hackers" data-link="/linux">
+<div class="module-title">Linux for Hackers</div>
+<div class="module-desc">Attack-side Linux</div>
+<div class="module-details">
+Commands, workflows, mindset.<br>
+Built from hands-on use.<br>
+<button class="enter-btn">ENTER MODULE</button>
+</div>
+</div>
+</section>
+
+<section class="notes">
+<h3>NOTES</h3>
+<p>
+This site is a personal experimentation lab.<br>
+Some modules are demos, some unfinished, some may break.<br>
+Nothing here is live or collecting real data.<br>
+Learning happens by building — not pretending.
+</p>
+</section>
+
+<div class="anchor" id="anchor">EXPERIMENTATION MODE ACTIVE_</div>
+
+<div class="terminal" id="terminal">
+<span class="ok">[OK] Monitoring traffic…</span>
+</div>
+
+</main>
+</div>
+
+<div class="tip">TIP: Use 1–4 keys + Enter to navigate</div>
+
 <script>
-  function go(p){ location.href = p }
-
-  setInterval(()=>{
-    document.getElementById("clock").innerText =
-      new Date().toLocaleTimeString();
-  },1000);
-
-  const logs = [
-  { t: "OK",   m: "Scanning ports..." },
-  { t: "OK",   m: "Threat analysis running" },
-  { t: "OK",   m: "Monitoring traffic..." },
-  { t: "OK",   m: "Network interface up" },
-  { t: "WARN", m: "Unusual packet rate detected" },
-  { t: "OK",   m: "Firewall initialized" },
-  { t: "OK",   m: "IDS running" },
-  { t: "WARN", m: "Latency spike on eth0" },
-  { t: "ERR",  m: "Auth probe blocked" },
-  { t: "OK",   m: "All systems nominal" },
-  { t: "OK",   m: "Boot sequence start" },
-  { t: "OK",   m: "Kernel loaded successfully" },
-  { t: "OK",   m: "Mounting root filesystem" },
-  { t: "OK",   m: "Network interface eth0 up" },
-  { t: "OK",   m: "DHCP lease acquired" },
-  { t: "OK",   m: "Firewall ruleset applied" },
-  { t: "OK",   m: "IDS engine initialized" },
-  { t: "OK",   m: "Packet inspection active" },
-  { t: "OK",   m: "Threat signature database synced" },
-  { t: "OK",   m: "Telemetry uplink stable" },
-
-  { t: "WARN", m: "Unusual packet rate detected" },
-  { t: "WARN", m: "Latency spike on eth0" },
-  { t: "WARN", m: "Repeated SYN packets from single source" },
-  { t: "WARN", m: "High memory usage detected" },
-  { t: "WARN", m: "Brute force pattern suspected" },
-  { t: "WARN", m: "DNS query anomaly observed" },
-  { t: "WARN", m: "Suspicious outbound connection attempt" },
-
-  { t: "ERR",  m: "Authentication probe blocked" },
-  { t: "ERR",  m: "Port scan attempt detected" },
-  { t: "ERR",  m: "Malformed packet dropped" },
-  { t: "ERR",  m: "Unauthorized API access attempt" },
-  { t: "ERR",  m: "Rate limit exceeded by remote host" },
-
-  { t: "OK",   m: "Connection quarantined" },
-  { t: "OK",   m: "Threat mitigated successfully" },
-  { t: "OK",   m: "Security posture restored" },
-  { t: "OK",   m: "Monitoring resumed" },
-  { t: "OK",   m: "All systems nominal" }
-];
-
-const terminal = document.getElementById("terminal");
-
-function pushLog(type, msg) {
-  const s = document.createElement("span");
-
-  if (type === "OK")   s.className = "ok";
-  if (type === "WARN") s.className = "warn";
-  if (type === "ERR")  s.className = "err";
-
-  s.textContent = `[${type}] ${msg}`;
-  terminal.appendChild(s);
-
-  // max scrollback
-  if (terminal.children.length > 25) {
-    terminal.removeChild(terminal.firstChild);
-  }
-   requestAnimationFrame(() => {
-    terminal.scrollTop = terminal.scrollHeight;
-  });
+const terminal=document.getElementById("terminal");
+function log(msg,type="info"){
+const s=document.createElement("span");
+s.className=type;
+s.textContent=msg;
+terminal.appendChild(s);
+if(terminal.children.length>14)terminal.removeChild(terminal.firstChild);
+terminal.scrollTop=terminal.scrollHeight;
 }
 
-setInterval(() => {
-  const l = logs[Math.floor(Math.random() * logs.length)];
-  pushLog(l.t, l.m);
-}, 1800);
+/* clock */
+setInterval(()=>clock.innerText=new Date().toLocaleTimeString(),1000);
 
-  
+/* engaged mode */
+let engaged=false;
+document.getElementById("main").addEventListener("click",()=>{
+if(engaged)return;
+engaged=true;
+document.body.classList.add("engaged");
+document.getElementById("anchor").textContent="OPERATOR CONNECTED_";
+log("[SYS] Operator interaction detected");
+log("[SYS] Interface elevated to ACTIVE MODE");
+});
+
+/* module logic */
+document.querySelectorAll(".module").forEach(m=>{
+let armed=false;
+
+m.addEventListener("mouseenter",()=>{
+log(`[INFO] Module focused: ${m.dataset.name}`);
+});
+
+m.addEventListener("click",e=>{
+if(e.target.classList.contains("enter-btn"))return;
+if(!armed){
+armed=true;
+m.classList.add("locked");
+log(`[INFO] Module armed: ${m.dataset.name}`);
+}
+});
+
+m.querySelector(".enter-btn").addEventListener("click",()=>{
+log(`[SYS] Entering module: ${m.dataset.name}`,"ok");
+setTimeout(()=>location.href=m.dataset.link,600);
+});
+});
+
+/* keyboard nav */
+const mods=[...document.querySelectorAll(".module")];
+let focus=-1;
+document.addEventListener("keydown",e=>{
+if(e.key>="1"&&e.key<="4"){
+focus=e.key-1;
+mods.forEach(m=>m.classList.remove("focused"));
+mods[focus].classList.add("focused");
+log(`[INPUT] Module selected: ${mods[focus].dataset.name}`);
+}
+if(e.key==="Enter"&&focus>=0){
+mods[focus].click();
+}
+});
+
+/* scroll awareness */
+let last=0;
+window.addEventListener("scroll",()=>{
+const dir=window.scrollY>last?"down":"up";
+last=window.scrollY;
+log(`[INFO] User scrolling ${dir}`);
+});
+
+/* idle detection */
+let idle;
+document.addEventListener("mousemove",()=>{
+clearTimeout(idle);
+idle=setTimeout(()=>log("[IDLE] Awaiting operator input","warn"),6000);
+});
 </script>
 </body>
 </html>
