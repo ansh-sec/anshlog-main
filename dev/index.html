@@ -1,171 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Anshlog :: Operator Profile</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>ANSHLOG :: OPERATOR PROFILE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:   #0a0a0a;
+  --paper: #f0ece0;
+  --acid:  #c8ff00;
+  --red:   #ff2020;
+  --blue:  #0028ff;
+}
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Share Tech Mono', monospace;
-    }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { cursor: crosshair; min-height:100%; }
 
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top, #020617, #000),
-        linear-gradient(rgba(0,255,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,255,0.04) 1px, transparent 1px);
-      background-size: cover, 40px 40px, 40px 40px;
-      color: #c7f9ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-    .profile {
-      width: 100%;
-      max-width: 520px;
-      background: rgba(2,6,23,0.85);
-      border: 1px solid rgba(0,255,255,0.25);
-      padding: 2.5rem;
-      box-shadow: 0 0 40px rgba(0,255,255,0.15);
-      position: relative;
-    }
+.cur {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform .1s, background .15s;
+  mix-blend-mode: multiply;
+}
 
-    .profile::before {
-      content: "OPERATOR PROFILE";
-      position: absolute;
-      top: -12px;
-      left: 20px;
-      background: #020617;
-      padding: 0 10px;
-      font-size: 0.75rem;
-      color: #00f6ff;
-      letter-spacing: 1px;
-    }
+body::before {
+  content:"";
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:0;
+}
 
-    h1 {
-      font-size: 2.2rem;
-      color: #00f6ff;
-      text-shadow: 0 0 20px #00f6ff;
-      margin-bottom: 0.3rem;
-    }
+/* TICKER */
+.ticker-wrap {
+  position: relative; z-index:2;
+  background: var(--ink); color: var(--acid);
+  overflow: hidden; height: 36px;
+  display: flex; align-items: center;
+  border-bottom: 3px solid var(--acid);
+}
+.ticker-track {
+  display: flex; white-space: nowrap;
+  animation: tick 20s linear infinite;
+}
+.ticker-track span { font-size:.7rem; letter-spacing:.18em; padding:0 3rem; }
+.ticker-track span::before { content:"◆  "; }
+@keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-    .subtitle {
-      font-size: 0.95rem;
-      color: #7dd3fc;
-      margin-bottom: 2rem;
-    }
+/* MASTHEAD */
+.masthead {
+  position: relative; z-index:2;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: stretch;
+  border-bottom: 3px solid var(--ink);
+}
+.mast-back {
+  display: flex; align-items: center;
+  padding: 1rem 1.5rem;
+  border-right: 3px solid var(--ink);
+  font-size: .65rem; font-weight:700;
+  letter-spacing: .15em; text-transform:uppercase;
+  text-decoration: none; color: var(--ink);
+  white-space: nowrap;
+  transition: background .15s;
+}
+.mast-back:hover { background: var(--acid); }
+.mast-back span { margin-right:.5rem; font-size:1rem; }
 
-    .info {
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 2rem;
-      color: #9ff;
-    }
+.mast-title {
+  padding: 1rem 2rem;
+  display: flex; flex-direction:column; justify-content:center;
+}
+.mast-eyebrow { font-size:.58rem; letter-spacing:.25em; opacity:.35; margin-bottom:.3rem; }
+.mast-name {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  line-height:.9; letter-spacing:-.01em;
+  text-transform: uppercase;
+  position: relative; display:inline-block;
+}
+.mast-name::before, .mast-name::after {
+  content: attr(data-text);
+  position:absolute; top:0; left:0;
+  font-family:inherit; font-size:inherit;
+  line-height:inherit; letter-spacing:inherit;
+}
+.mast-name::before { color:var(--red); animation:gA 7s infinite; clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%); }
+.mast-name::after  { color:var(--blue); animation:gB 7s infinite; clip-path:polygon(0 65%,100% 65%,100% 82%,0 82%); }
+@keyframes gA { 0%,93%,100%{transform:none;opacity:0} 94%{transform:translateX(-5px);opacity:.8} 96%{transform:translateX(3px);opacity:.7} }
+@keyframes gB { 0%,93%,100%{transform:none;opacity:0} 95%{transform:translateX(7px);opacity:.8} 97%{transform:translateX(-2px);opacity:.6} }
 
-    .links {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.8rem;
-    }
+.mast-right {
+  border-left: 3px solid var(--ink);
+  padding: 1rem 1.5rem;
+  display: flex; flex-direction:column; justify-content:center; align-items:flex-end; gap:.4rem;
+}
+.mast-role {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem; letter-spacing:.1em; line-height:1.2; text-align:right;
+}
+.mast-status {
+  display:inline-flex; align-items:center; gap:.4rem;
+  background:var(--ink); color:var(--acid);
+  font-size:.58rem; letter-spacing:.15em; padding:.2rem .5rem;
+}
+.blink { animation: blink 1.4s step-end infinite; }
+@keyframes blink { 50%{ opacity:0; } }
+#clock { font-size:.65rem; color:var(--blue); font-weight:700; }
 
-    .links a {
-      padding: 0.8rem 1rem;
-      border: 1px solid rgba(0,255,255,0.25);
-      text-decoration: none;
-      color: #c7f9ff;
-      transition: 0.25s;
-    }
+/* BODY */
+.body-wrap {
+  position:relative; z-index:2;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  min-height: calc(100vh - 170px);
+}
 
-    .links a:hover {
-      background: rgba(0,255,255,0.12);
-      box-shadow: 0 0 15px rgba(0,255,255,0.4);
-      color: #00f6ff;
-    }
+/* LEFT */
+.left {
+  border-right: 3px solid var(--ink);
+  display: flex; flex-direction:column;
+}
 
-    .footer {
-      margin-top: 2rem;
-      font-size: 0.8rem;
-      color: #7dd3fc;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
+.section {
+  border-bottom: 2px solid rgba(0,0,0,.12);
+  padding: 2rem 2.5rem;
+}
+.section:last-child { border-bottom:none; flex:1; }
 
-    .footer a {
-      color: #7dd3fc;
-      text-decoration: none;
-    }
+.sec-label {
+  font-size:.56rem; letter-spacing:.28em;
+  opacity:.32; margin-bottom:1rem;
+  padding-bottom:.5rem;
+  border-bottom:1px solid var(--ink);
+}
 
-    .footer a:hover {
-      color: #00f6ff;
-    }
+.bio-line {
+  display:grid; grid-template-columns: 100px 1fr;
+  gap:.5rem 1rem; align-items:baseline;
+  margin-bottom:.5rem;
+}
+.bio-key { font-size:.62rem; opacity:.38; letter-spacing:.1em; }
+.bio-val { font-size:.78rem; font-weight:700; letter-spacing:.04em; }
+.bio-val.red { color:var(--red); }
+.bio-val.blue { color:var(--blue); }
 
-    /* Mobile */
-    @media (max-width: 600px) {
-      .profile {
-        padding: 2rem 1.5rem;
-      }
+.big-word {
+  font-family:'Bebas Neue',sans-serif;
+  font-size: clamp(4rem, 10vw, 8rem);
+  line-height:.9;
+  color:var(--ink);
+  margin-top:1.5rem;
+  letter-spacing:.03em;
+}
+.big-word sub {
+  display:block; font-family:'IBM Plex Mono',monospace;
+  font-size:.6rem; letter-spacing:.2em; opacity:.3; margin-top:-.3rem;
+}
 
-      h1 {
-        font-size: 1.8rem;
-      }
-    }
-  </style>
+.focus-list { list-style:none; margin-top:.5rem; }
+.focus-list li {
+  font-size:.75rem; line-height:1;
+  padding:.6rem 0;
+  border-bottom:1px solid rgba(0,0,0,.08);
+  display:flex; align-items:center; gap:.7rem;
+}
+.focus-list li::before {
+  content:"▸"; color:var(--red); font-size:.7rem; flex-shrink:0;
+}
+.focus-list li:last-child { border-bottom:none; }
+
+/* RIGHT: LINKS */
+.right {
+  display:flex; flex-direction:column;
+}
+
+.links-header {
+  padding:1.4rem 1.8rem;
+  border-bottom:2px solid var(--ink);
+}
+.links-header h2 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2rem; letter-spacing:.08em; line-height:1;
+}
+.links-header p { font-size:.6rem; opacity:.35; letter-spacing:.12em; margin-top:.3rem; }
+
+.link-item {
+  display:flex; align-items:stretch;
+  border-bottom:2px solid rgba(0,0,0,.1);
+  text-decoration:none; color:var(--ink);
+  position:relative; overflow:hidden;
+  transition:border-color .2s;
+}
+.link-item:last-child { border-bottom:none; }
+
+.link-bg {
+  position:absolute; inset:0;
+  background:var(--acid);
+  transform:translateX(-101%);
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+  z-index:0;
+}
+.link-item:hover .link-bg { transform:translateX(0); }
+.link-item > * { position:relative; z-index:1; }
+
+.link-num {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.5rem; line-height:1;
+  padding:.9rem .8rem .9rem 1.2rem;
+  color:rgba(0,0,0,.15);
+  min-width:48px; text-align:center;
+  border-right:1px solid rgba(0,0,0,.08);
+  display:flex; align-items:center; justify-content:center;
+  transition:color .2s;
+}
+.link-item:hover .link-num { color:rgba(0,0,0,.35); }
+
+.link-body {
+  padding:.85rem 1rem; flex:1;
+  display:flex; flex-direction:column; justify-content:center; gap:.2rem;
+}
+.link-platform { font-size:.55rem; letter-spacing:.2em; opacity:.38; }
+.link-name { font-size:.85rem; font-weight:700; letter-spacing:.04em; }
+
+.link-arr {
+  display:flex; align-items:center;
+  padding:0 1.2rem;
+  font-size:1.1rem;
+  opacity:.3;
+  transition:opacity .2s, transform .2s;
+}
+.link-item:hover .link-arr { opacity:1; transform:translateX(4px); }
+
+/* FOOTER */
+footer {
+  position:relative; z-index:2;
+  border-top:3px solid var(--ink);
+  display:flex; justify-content:space-between; align-items:center;
+  padding:.8rem 2.5rem;
+  background:var(--ink);
+  color:rgba(240,236,224,.35);
+  font-size:.6rem; letter-spacing:.15em;
+  flex-wrap:wrap; gap:.5rem;
+}
+footer .accent { color:var(--acid); }
+
+@media(max-width:780px){
+  .body-wrap { grid-template-columns:1fr; }
+  .left { border-right:none; border-bottom:3px solid var(--ink); }
+  .masthead { grid-template-columns:auto 1fr; }
+  .mast-right { display:none; }
+  .section { padding:1.5rem; }
+}
+</style>
 </head>
-
 <body>
 
-  <div class="profile">
-    <h1>Ansh Sharma</h1>
-    <div class="subtitle">CSE • Cybersecurity • Builder</div>
+<div class="cur" id="cur"></div>
 
-    <div class="info">
-      Role: Student / Experimenter  
-      <br>
-      Focus: Security labs, Linux systems, web experiments  
-      <br>
-      Status: Actively building. Quietly learning.
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span>OPERATOR PROFILE // ANSH SHARMA</span>
+    <span>CSE · CYBERSECURITY · BUILDER</span>
+    <span>ACTIVELY BUILDING. QUIETLY LEARNING.</span>
+    <span>STATUS: ONLINE</span>
+    <span>OPERATOR PROFILE // ANSH SHARMA</span>
+    <span>CSE · CYBERSECURITY · BUILDER</span>
+    <span>ACTIVELY BUILDING. QUIETLY LEARNING.</span>
+    <span>STATUS: ONLINE</span>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <a class="mast-back" href="/">
+    <span>←</span> Command Center
+  </a>
+  <div class="mast-title">
+    <div class="mast-eyebrow">OPERATOR PROFILE // MODULE 02</div>
+    <div class="mast-name" data-text="ANSH SHARMA">ANSH SHARMA</div>
+  </div>
+  <div class="mast-right">
+    <div class="mast-role">Student<br>Experimenter</div>
+    <div class="mast-status"><span class="blink">●</span> ONLINE</div>
+    <div id="clock">--:--:--</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+
+  <!-- LEFT: INFO -->
+  <div class="left">
+
+    <div class="section">
+      <div class="sec-label">Identity</div>
+      <div class="bio-line">
+        <span class="bio-key">ROLE</span>
+        <span class="bio-val red">Student / Experimenter</span>
+      </div>
+      <div class="bio-line">
+        <span class="bio-key">FIELD</span>
+        <span class="bio-val">CSE · Cybersecurity</span>
+      </div>
+      <div class="bio-line">
+        <span class="bio-key">STATUS</span>
+        <span class="bio-val blue">Actively Building</span>
+      </div>
+      <div class="bio-line">
+        <span class="bio-key">MODE</span>
+        <span class="bio-val">Quietly Learning</span>
+      </div>
     </div>
 
-    <div class="links">
-      <a href="https://www.linkedin.com/in/anshsharma-sec" target="_blank">
-        LinkedIn
-      </a>
-
-      <a href="https://github.com/ansh-sec" target="_blank">
-        GitHub
-      </a>
-
-      <a href="https://discordapp.com/users/rootshade_" target="_blank">
-        Discord
-      </a>
-
-      <a href="https://www.instagram.com/ansh.sh__/" target="_blank">
-        Instagram
-      </a>
-
-      <a href="mailto:ansh.csec@gmail.com">
-        Secure Mail
-      </a>
+    <div class="section">
+      <div class="sec-label">Focus Areas</div>
+      <ul class="focus-list">
+        <li>Security labs &amp; controlled experiments</li>
+        <li>Linux systems &amp; attack-side tooling</li>
+        <li>Web experiments &amp; front-end play</li>
+        <li>Building things to understand them</li>
+      </ul>
     </div>
 
-    <div class="footer">
-      <span>[STATUS] ONLINE</span>
-      <a href="/">← return to command center</a>
+    <div class="section">
+      <div class="big-word">
+        BUILDER
+        <sub>NOT PRETENDING</sub>
+      </div>
     </div>
+
   </div>
 
+  <!-- RIGHT: LINKS -->
+  <div class="right">
+
+    <div class="links-header">
+      <h2>Find Me Online</h2>
+      <p>DIRECT LINKS · NO MIDDLEMAN</p>
+    </div>
+
+    <a class="link-item" href="https://www.linkedin.com/in/anshsharma-sec" target="_blank">
+      <div class="link-bg"></div>
+      <div class="link-num">01</div>
+      <div class="link-body">
+        <div class="link-platform">PROFESSIONAL NETWORK</div>
+        <div class="link-name">LinkedIn</div>
+      </div>
+      <div class="link-arr">→</div>
+    </a>
+
+    <a class="link-item" href="https://github.com/ansh-sec" target="_blank">
+      <div class="link-bg"></div>
+      <div class="link-num">02</div>
+      <div class="link-body">
+        <div class="link-platform">CODE & PROJECTS</div>
+        <div class="link-name">GitHub</div>
+      </div>
+      <div class="link-arr">→</div>
+    </a>
+
+    <a class="link-item" href="https://discordapp.com/users/rootshade_" target="_blank">
+      <div class="link-bg"></div>
+      <div class="link-num">03</div>
+      <div class="link-body">
+        <div class="link-platform">COMMUNITY</div>
+        <div class="link-name">Discord</div>
+      </div>
+      <div class="link-arr">→</div>
+    </a>
+
+    <a class="link-item" href="https://www.instagram.com/ansh.sh__/" target="_blank">
+      <div class="link-bg"></div>
+      <div class="link-num">04</div>
+      <div class="link-body">
+        <div class="link-platform">PERSONAL</div>
+        <div class="link-name">Instagram</div>
+      </div>
+      <div class="link-arr">→</div>
+    </a>
+
+    <a class="link-item" href="mailto:ansh.csec@gmail.com">
+      <div class="link-bg"></div>
+      <div class="link-num">05</div>
+      <div class="link-body">
+        <div class="link-platform">DIRECT CONTACT</div>
+        <div class="link-name">Secure Mail</div>
+      </div>
+      <div class="link-arr">→</div>
+    </a>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="accent">ANSHLOG</span>
+  <span>OPERATOR: ANSH SHARMA</span>
+  <span>BUILD v0.3-unstable</span>
+</footer>
+
+<script>
+const cur = document.getElementById('cur');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top  = e.clientY + 'px';
+});
+document.querySelectorAll('a').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.style.transform='translate(-50%,-50%) scale(2.8)'; cur.style.background='#0028ff'; });
+  el.addEventListener('mouseleave', () => { cur.style.transform='translate(-50%,-50%) scale(1)';   cur.style.background='#ff2020'; });
+});
+
+const clockEl = document.getElementById('clock');
+const tick = () => clockEl.textContent = new Date().toLocaleTimeString('en-GB');
+tick(); setInterval(tick, 1000);
+</script>
 </body>
 </html>
