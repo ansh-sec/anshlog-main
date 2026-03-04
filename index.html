@@ -2,418 +2,560 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Anshlog :: Command Center</title>
+<title>ANSHLOG</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Share Tech Mono',monospace}
-
-body{
-height:100vh;
-background:
-radial-gradient(circle at top,#020617,#000),
-linear-gradient(rgba(0,255,255,.04)1px,transparent 1px),
-linear-gradient(90deg,rgba(0,255,255,.04)1px,transparent 1px);
-background-size:cover,40px 40px,40px 40px;
-color:#c7f9ff;
-overflow:hidden;
-position:relative;
+:root {
+  --ink:   #0a0a0a;
+  --paper: #f0ece0;
+  --acid:  #c8ff00;
+  --red:   #ff2020;
+  --blue:  #0028ff;
 }
 
-/* sweep */
-body::after{
-content:"";
-position:fixed;
-inset:0;
-background:linear-gradient(120deg,transparent 40%,rgba(0,255,255,.04),transparent 60%);
-animation:sweep 14s linear infinite;
-pointer-events:none;
-}
-@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { cursor: crosshair; }
 
-.layout{
-display:grid;
-grid-template-columns:240px 1fr;
-grid-template-rows:70px 1fr;
-height:100%;
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', monospace;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* sidebar */
-aside{
-grid-row:1/span 2;
-background:rgba(2,6,23,.85);
-border-right:1px solid rgba(0,255,255,.15);
-padding:1.5rem;
-}
-aside h2{color:#00f6ff;margin-bottom:2rem;text-shadow:0 0 15px #00f6ff}
-aside a{
-display:block;
-color:#9ff;
-text-decoration:none;
-margin-bottom:1rem;
-opacity:.75;
-}
-aside a:hover{opacity:1;color:#00f6ff}
-
-/* header */
-header{
-grid-column:2;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 2rem;
-border-bottom:1px solid rgba(0,255,255,.15);
-background:rgba(2,6,23,.7);
-}
-.status{color:#00ff9c;text-shadow:0 0 10px #00ff9c}
-.build{font-size:.75rem;opacity:.6}
-
-/* main */
-main{grid-column:2;padding:2rem;position:relative}
-.title{font-size:3rem;color:#00f6ff;text-shadow:0 0 25px #00f6ff}
-.subtitle{color:#7dd3fc;margin-bottom:1.4rem}
-
-.section-hint{
-font-size:.65rem;
-letter-spacing:2px;
-opacity:.45;
-margin:1.2rem 0 .6rem;
+.cur {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--red);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform .1s, background .15s;
+  mix-blend-mode: multiply;
 }
 
-/* hud */
-.hud{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:1.2rem;
-margin-bottom:2rem;
-}
-.hud-card{
-padding:1rem;
-background:rgba(2,6,23,.55);
-border:1px solid rgba(0,255,255,.18);
-transition:.3s;
-}
-body.engaged .hud-card{
-box-shadow:0 0 18px rgba(0,255,255,.25);
-}
-.hud-label{font-size:.65rem;opacity:.6}
-.hud-value{margin-top:.3rem;font-size:1rem;color:#00f6ff}
-
-/* divider */
-.divider{
-height:1px;
-margin:2rem 0;
-background:linear-gradient(to right,transparent,rgba(0,255,255,.25),transparent);
+body::before {
+  content:"";
+  position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:0;
 }
 
-/* modules */
-.modules{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:1.5rem;
-margin-bottom:3rem;
+/* TICKER */
+.ticker-wrap {
+  position: relative; z-index:2;
+  background: var(--ink);
+  color: var(--acid);
+  overflow: hidden;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  border-bottom: 3px solid var(--acid);
+}
+.ticker-track {
+  display: flex;
+  white-space: nowrap;
+  animation: tick 22s linear infinite;
+}
+.ticker-track span {
+  font-size: .7rem;
+  letter-spacing: .18em;
+  padding: 0 3rem;
+}
+.ticker-track span::before { content: "◆  "; }
+@keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* MASTHEAD */
+.masthead {
+  position: relative; z-index:2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  padding: 1.2rem 2.5rem .6rem;
+  border-bottom: 3px solid var(--ink);
+  gap: 1rem;
 }
 
-.module{
-position:relative;
-padding:1.8rem;
-min-height:120px;
-border:1px solid rgba(0,255,255,.25);
-background:rgba(2,6,23,.65);
-cursor:pointer;
-transition:.35s ease;
-overflow:hidden;
+.site-name {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(4.5rem, 17vw, 13rem);
+  line-height: .88;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
 }
-.module:hover{
-min-height:190px;
-transform:translateY(-6px);
-box-shadow:0 0 25px rgba(0,255,255,.35),inset 0 0 20px rgba(0,255,255,.08);
+.site-name::before,
+.site-name::after {
+  content: attr(data-text);
+  position: absolute; top:0; left:0;
+  font-family: inherit; font-size: inherit;
+  line-height: inherit; letter-spacing: inherit;
 }
-.module.focused{outline:1px dashed rgba(0,255,255,.6)}
-
-.module-title{font-size:1.1rem;color:#00f6ff}
-.module-desc{margin-top:.4rem;font-size:.75rem;opacity:.6}
-
-.module-details{
-margin-top:.8rem;
-font-size:.7rem;
-line-height:1.6;
-opacity:0;
-transform:translateY(10px);
-transition:.3s ease;
+.site-name::before {
+  color: var(--red);
+  animation: glitchA 6s infinite;
+  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
 }
-.module:hover .module-details,
-.module.locked .module-details{
-opacity:.75;
-transform:translateY(0);
+.site-name::after {
+  color: var(--blue);
+  animation: glitchB 6s infinite;
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
 }
-
-.enter-btn{
-margin-top:.6rem;
-padding:.3rem .6rem;
-background:transparent;
-border:1px solid #00ff9c;
-color:#00ff9c;
-font-size:.65rem;
-cursor:pointer;
+@keyframes glitchA {
+  0%,94%,100%{transform:none;opacity:0}
+  95%{transform:translateX(-6px);opacity:.8}
+  97%{transform:translateX(4px);opacity:.7}
 }
-.enter-btn:hover{background:rgba(0,255,255,.1)}
-
-.module::after{
-content:"OPEN MODULE";
-position:absolute;
-bottom:1rem;
-right:1.2rem;
-font-size:.6rem;
-letter-spacing:1px;
-opacity:0;
-color:#00ff9c;
-transition:.25s;
-}
-.module:hover::after{opacity:1}
-
-/* notes */
-.notes{
-max-width:720px;
-padding:1.5rem;
-border:1px solid rgba(0,255,255,.18);
-background:rgba(2,6,23,.55);
-}
-.notes h3{color:#00f6ff;font-size:1rem;margin-bottom:.6rem}
-.notes p{font-size:.8rem;opacity:.75;line-height:1.6}
-
-/* anchor */
-.anchor{
-position:absolute;
-bottom:5.5rem;
-left:50%;
-transform:translateX(-50%);
-font-size:2.6rem;
-letter-spacing:4px;
-opacity:.14;
-text-shadow:0 0 40px rgba(0,255,255,.25);
-animation:pulse 4s ease-in-out infinite;
-pointer-events:none;
-}
-@keyframes pulse{50%{opacity:.08}}
-
-/* terminal */
-.terminal{
-position:absolute;
-right:2rem;
-bottom:2rem;
-width:360px;
-height:220px;
-background:rgba(2,6,23,.9);
-border:1px solid rgba(0,255,255,.3);
-padding:1rem;
-font-size:.85rem;
-overflow:hidden;
-}
-.terminal span{display:block;margin-bottom:.3rem}
-.ok{color:#00ff9c}
-.warn{color:#ffd166}
-.info{color:#7dd3fc}
-
-/* tip */
-.tip{
-position:fixed;
-bottom:1rem;
-left:1rem;
-font-size:.65rem;
-opacity:.45;
+@keyframes glitchB {
+  0%,94%,100%{transform:none;opacity:0}
+  96%{transform:translateX(8px);opacity:.8}
+  98%{transform:translateX(-3px);opacity:.6}
 }
 
-/* mobile */
-@media(max-width:768px){
-body{overflow-y:auto}
-.layout{grid-template-columns:1fr}
-aside{border-right:none;border-bottom:1px solid rgba(0,255,255,.15)}
-header,main{grid-column:1}
-.anchor{display:none}
-.terminal{
-position:fixed;
-left:50%;
-transform:translateX(-50%);
-bottom:1rem;
-width:92%;
-height:150px;
+.masthead-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .4rem;
+  padding-bottom: .4rem;
 }
+.tagline { font-size: .65rem; letter-spacing: .18em; opacity: .45; }
+.build-pill {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--acid);
+  font-size: .6rem;
+  letter-spacing: .15em;
+  padding: .2rem .55rem;
+}
+#clock { font-size: .7rem; font-weight: 700; letter-spacing: .08em; color: var(--blue); }
+
+/* NAV */
+nav.main-nav {
+  position: relative; z-index:2;
+  display: flex;
+  border-bottom: 3px solid var(--ink);
+}
+nav.main-nav a {
+  flex: 1;
+  text-align: center;
+  padding: .7rem 1rem;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  border-right: 2px solid var(--ink);
+  transition: background .15s;
+  position: relative;
+  overflow: hidden;
+}
+nav.main-nav a::after {
+  content:"";
+  position:absolute; bottom:0; left:0; right:0;
+  height:0;
+  background: var(--acid);
+  transition: height .2s;
+  z-index:-1;
+}
+nav.main-nav a:hover::after { height:100%; }
+nav.main-nav a:last-child { border-right:none; }
+
+/* STATUS STRIP */
+.status-strip {
+  position: relative; z-index:2;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: .5rem 2.5rem;
+  background: var(--ink);
+  color: rgba(240,236,224,.45);
+  font-size: .62rem;
+  letter-spacing: .15em;
+  flex-wrap: wrap;
+}
+.status-strip .pill {
+  background: var(--acid);
+  color: var(--ink);
+  padding: .1rem .4rem;
+  font-weight: 700;
+  font-size: .58rem;
+}
+.status-strip .sep { opacity: .25; }
+
+/* BODY GRID */
+.body-wrap {
+  position: relative; z-index:2;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: calc(100vh - 210px);
+}
+
+/* LEFT COL */
+.left-col {
+  border-right: 3px solid var(--ink);
+  padding: 2rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+}
+.col-label {
+  font-size: .58rem;
+  letter-spacing: .25em;
+  opacity: .35;
+  margin-bottom: 1.2rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid var(--ink);
+}
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: .65rem 0;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.stat-key { font-size: .6rem; letter-spacing: .1em; opacity: .4; }
+.stat-val { font-size: .75rem; font-weight: 700; letter-spacing: .06em; }
+.stat-val.red { color: var(--red); }
+.stat-val.blue { color: var(--blue); }
+
+.big-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 6rem;
+  line-height: 1;
+  color: var(--ink);
+  margin-top: 2rem;
+}
+.big-number sub {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .58rem;
+  letter-spacing: .15em;
+  opacity: .3;
+  margin-top: -.4rem;
+}
+
+.note-box {
+  margin-top: 2rem;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1.2rem;
+}
+.note-box h3 { font-size: .6rem; letter-spacing: .2em; color: var(--acid); margin-bottom: .6rem; }
+.note-box p { font-size: .68rem; line-height: 1.75; opacity: .6; }
+
+/* RIGHT COL */
+.right-col { display: flex; flex-direction: column; }
+
+.modules-header {
+  padding: 1.4rem 2.5rem;
+  border-bottom: 2px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modules-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: .08em;
+  line-height:1;
+}
+.modules-header .hint { font-size: .58rem; letter-spacing: .15em; opacity: .3; }
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  flex: 1;
+}
+
+.mod {
+  border-right: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  padding: 2rem 2rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ink);
+}
+.mod:nth-child(even) { border-right: none; }
+.mod:nth-child(3), .mod:nth-child(4) { border-bottom: none; }
+
+.mod-bg {
+  position: absolute; inset:0;
+  background: var(--acid);
+  transform: translateY(101%);
+  transition: transform .32s cubic-bezier(.4,0,.2,1);
+  z-index:0;
+}
+.mod:hover .mod-bg { transform: translateY(0); }
+.mod > * { position:relative; z-index:1; }
+
+.mod-ghost-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 6rem;
+  line-height:1;
+  color: rgba(0,0,0,.06);
+  position: absolute;
+  top: .5rem; right: 1rem;
+  z-index:0;
+  pointer-events:none;
+}
+
+.mod-tag { font-size: .55rem; letter-spacing: .18em; opacity: .4; margin-bottom: .8rem; }
+.mod-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.9rem;
+  letter-spacing: .01em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  margin-bottom: .5rem;
+}
+.mod-desc { font-size: .7rem; line-height: 1.65; opacity: .48; margin-bottom: 1.4rem; max-width: 24ch; }
+
+.mod-cta {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: .2rem;
+  width: fit-content;
+  transition: gap .2s;
+}
+.mod:hover .mod-cta { gap: 1.2rem; }
+
+/* FOOTER */
+footer {
+  position: relative; z-index:2;
+  border-top: 3px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .8rem 2.5rem;
+  background: var(--ink);
+  color: rgba(240,236,224,.35);
+  font-size: .6rem;
+  letter-spacing: .15em;
+}
+footer .accent { color: var(--acid); }
+
+/* KBD BADGES */
+.kbd-badge {
+  position: fixed; top:50%; right:1.5rem;
+  transform: translateY(-50%);
+  z-index:50;
+  display: flex; flex-direction: column; gap:.4rem;
+  pointer-events:none;
+}
+.kbd {
+  width:30px; height:30px;
+  background: var(--ink); color: var(--acid);
+  font-size:.65rem; font-weight:700;
+  display:grid; place-items:center;
+  opacity:.22; transition: opacity .2s, transform .2s;
+}
+.kbd.active { opacity:1; transform:scale(1.2); }
+
+@media(max-width:780px){
+  .body-wrap { grid-template-columns:1fr; }
+  .left-col { border-right:none; border-bottom:3px solid var(--ink); }
+  .modules-grid { grid-template-columns:1fr; }
+  .mod { border-right:none; }
+  .mod:nth-child(even) { border-right:none; }
+  .mod:nth-child(3) { border-bottom:3px solid var(--ink); }
+  .masthead { grid-template-columns:1fr; }
+  .masthead-right { align-items:flex-start; }
+  .kbd-badge { display:none; }
+  .status-strip { gap:1rem; }
 }
 </style>
 </head>
-
 <body>
-<div class="layout">
 
-<aside>
-<h2>ANSHLOG</h2>
-<a href="/login">Fake Login Lab</a>
-<a href="/dev">About / Dev</a>
-<a href="/rose">Rose Day</a>
-<a href="/linux">Linux for Hackers</a>
-</aside>
+<div class="cur" id="cur"></div>
 
-<header>
-<div class="status">OPERATION STATUS: ACTIVE</div>
-<div class="build">BUILD v0.3 / unstable • <span id="clock"></span></div>
-</header>
-
-<main id="main">
-
-<div class="title">Command Center</div>
-<div class="subtitle">Cyber • Experiments • Controlled Chaos</div>
-
-<section class="hud">
-<div class="hud-card"><div class="hud-label">SITE STATE</div><div class="hud-value">PUBLIC LAB</div></div>
-<div class="hud-card"><div class="hud-label">MODULES</div><div class="hud-value">4 AVAILABLE</div></div>
-<div class="hud-card"><div class="hud-label">FOCUS</div><div class="hud-value">LEARNING & BUILDING</div></div>
-<div class="hud-card"><div class="hud-label">UPDATE TYPE</div><div class="hud-value">STATIC</div></div>
-</section>
-
-<div class="divider"></div>
-<div class="section-hint">AVAILABLE MODULES</div>
-
-<section class="modules">
-<div class="module" data-name="Fake Login Lab" data-link="/login">
-<div class="module-title">Fake Login Lab</div>
-<div class="module-desc">Instagram credential demo</div>
-<div class="module-details">
-Simulated phishing-style login page.<br>
-Educational demo only.<br>
-<button class="enter-btn">ENTER MODULE</button>
-</div>
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span>OPERATION STATUS: ACTIVE</span>
+    <span>CYBER · EXPERIMENTS · CONTROLLED CHAOS</span>
+    <span>PUBLIC LAB / BUILD v0.3 / UNSTABLE</span>
+    <span>NOTHING HERE COLLECTS REAL DATA</span>
+    <span>LEARNING HAPPENS BY BUILDING</span>
+    <span>OPERATION STATUS: ACTIVE</span>
+    <span>CYBER · EXPERIMENTS · CONTROLLED CHAOS</span>
+    <span>PUBLIC LAB / BUILD v0.3 / UNSTABLE</span>
+    <span>NOTHING HERE COLLECTS REAL DATA</span>
+    <span>LEARNING HAPPENS BY BUILDING</span>
+  </div>
 </div>
 
-<div class="module" data-name="About / Dev" data-link="/dev">
-<div class="module-title">About / Dev</div>
-<div class="module-desc">Operator profile & links</div>
-<div class="module-details">
-Background, socials, intent.<br>
-Why this lab exists.<br>
-<button class="enter-btn">ENTER MODULE</button>
-</div>
-</div>
-
-<div class="module" data-name="Rose Day" data-link="/rose">
-<div class="module-title">Rose Day</div>
-<div class="module-desc">Visual experiment</div>
-<div class="module-details">
-Creative animation testing.<br>
-Pure front-end play.<br>
-<button class="enter-btn">ENTER MODULE</button>
-</div>
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="site-name" data-text="ANSHLOG">ANSHLOG</div>
+  <div class="masthead-right">
+    <div class="tagline">Personal Lab · Experimentation Zone</div>
+    <div class="build-pill">BUILD v0.3-unstable</div>
+    <div id="clock">--:--:--</div>
+  </div>
 </div>
 
-<div class="module" data-name="Linux for Hackers" data-link="/linux">
-<div class="module-title">Linux for Hackers</div>
-<div class="module-desc">Attack-side Linux</div>
-<div class="module-details">
-Commands, workflows, mindset.<br>
-Built from hands-on use.<br>
-<button class="enter-btn">ENTER MODULE</button>
-</div>
-</div>
-</section>
+<!-- NAV -->
+<nav class="main-nav">
+  <a href="/login">Fake Login Lab</a>
+  <a href="/dev">About / Dev</a>
+  <a href="/rose">Rose Day</a>
+  <a href="/linux">Linux for Hackers</a>
+</nav>
 
-<section class="notes">
-<h3>NOTES</h3>
-<p>
-This site is a personal experimentation lab.<br>
-Some modules are demos, some unfinished, some may break.<br>
-Nothing here is live or collecting real data.<br>
-Learning happens by building — not pretending.
-</p>
-</section>
-
-<div class="anchor" id="anchor">EXPERIMENTATION MODE ACTIVE_</div>
-
-<div class="terminal" id="terminal">
-<span class="ok">[OK] Monitoring traffic…</span>
+<!-- STATUS STRIP -->
+<div class="status-strip">
+  <span class="pill">ACTIVE</span>
+  <span>SITE STATE: PUBLIC LAB</span>
+  <span class="sep">|</span>
+  <span>MODULES: 4 AVAILABLE</span>
+  <span class="sep">|</span>
+  <span>FOCUS: LEARNING &amp; BUILDING</span>
+  <span class="sep">|</span>
+  <span>UPDATE TYPE: STATIC</span>
 </div>
 
-</main>
+<!-- BODY -->
+<div class="body-wrap">
+
+  <div class="left-col">
+    <div class="col-label">System Status</div>
+    <div class="stat-row">
+      <span class="stat-key">SITE STATE</span>
+      <span class="stat-val red">PUBLIC LAB</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-key">MODULES</span>
+      <span class="stat-val">4 AVAILABLE</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-key">FOCUS</span>
+      <span class="stat-val blue">LEARN + BUILD</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-key">DATA COLLECTED</span>
+      <span class="stat-val">NONE</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-key">UPDATE TYPE</span>
+      <span class="stat-val">STATIC</span>
+    </div>
+
+    <div class="big-number">04<sub>MODULES LOADED</sub></div>
+
+    <div class="note-box">
+      <h3>LAB NOTES</h3>
+      <p>Personal experimentation lab. Some modules are demos, some unfinished, some may break.<br><br>Nothing here is live or collecting real data. Learning happens by building — not pretending.</p>
+    </div>
+  </div>
+
+  <div class="right-col">
+    <div class="modules-header">
+      <h2>Available Modules</h2>
+      <div class="hint">PRESS 1–4 + ENTER TO NAVIGATE</div>
+    </div>
+
+    <div class="modules-grid">
+
+      <a class="mod" href="/login">
+        <div class="mod-bg"></div>
+        <div class="mod-ghost-num">01</div>
+        <div class="mod-tag">Phishing Sim · Educational</div>
+        <div class="mod-title">Fake Login Lab</div>
+        <div class="mod-desc">Instagram credential demo. Simulated phishing-style login page. No data captured.</div>
+        <div class="mod-cta">Enter Module →</div>
+      </a>
+
+      <a class="mod" href="/dev">
+        <div class="mod-bg"></div>
+        <div class="mod-ghost-num">02</div>
+        <div class="mod-tag">Profile · Context</div>
+        <div class="mod-title">About / Dev</div>
+        <div class="mod-desc">Operator profile and links. Background, socials, intent — why this lab exists.</div>
+        <div class="mod-cta">Enter Module →</div>
+      </a>
+
+      <a class="mod" href="/rose">
+        <div class="mod-bg"></div>
+        <div class="mod-ghost-num">03</div>
+        <div class="mod-tag">Visual · Animation</div>
+        <div class="mod-title">Rose Day</div>
+        <div class="mod-desc">Creative animation experiment. Pure front-end play — aesthetics under test.</div>
+        <div class="mod-cta">Enter Module →</div>
+      </a>
+
+      <a class="mod" href="/linux">
+        <div class="mod-bg"></div>
+        <div class="mod-ghost-num">04</div>
+        <div class="mod-tag">Red Team · Reference</div>
+        <div class="mod-title">Linux for Hackers</div>
+        <div class="mod-desc">Attack-side Linux. Commands, workflows, mindset — built from hands-on use.</div>
+        <div class="mod-cta">Enter Module →</div>
+      </a>
+
+    </div>
+  </div>
 </div>
 
-<div class="tip">TIP: Use 1–4 keys + Enter to navigate</div>
+<!-- FOOTER -->
+<footer>
+  <span class="accent">ANSHLOG</span>
+  <span>CYBER · EXPERIMENTS · CONTROLLED CHAOS</span>
+  <span>NO REAL DATA COLLECTED</span>
+</footer>
+
+<div class="kbd-badge">
+  <div class="kbd" id="k1">1</div>
+  <div class="kbd" id="k2">2</div>
+  <div class="kbd" id="k3">3</div>
+  <div class="kbd" id="k4">4</div>
+</div>
 
 <script>
-const terminal=document.getElementById("terminal");
-function log(msg,type="info"){
-const s=document.createElement("span");
-s.className=type;
-s.textContent=msg;
-terminal.appendChild(s);
-if(terminal.children.length>14)terminal.removeChild(terminal.firstChild);
-terminal.scrollTop=terminal.scrollHeight;
-}
-
-/* clock */
-setInterval(()=>clock.innerText=new Date().toLocaleTimeString(),1000);
-
-/* engaged mode */
-let engaged=false;
-document.getElementById("main").addEventListener("click",()=>{
-if(engaged)return;
-engaged=true;
-document.body.classList.add("engaged");
-document.getElementById("anchor").textContent="OPERATOR CONNECTED_";
-log("[SYS] Operator interaction detected");
-log("[SYS] Interface elevated to ACTIVE MODE");
+const cur = document.getElementById('cur');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top  = e.clientY + 'px';
+});
+document.querySelectorAll('a,.mod').forEach(el => {
+  el.addEventListener('mouseenter', () => { cur.style.transform='translate(-50%,-50%) scale(2.8)'; cur.style.background='#0028ff'; });
+  el.addEventListener('mouseleave', () => { cur.style.transform='translate(-50%,-50%) scale(1)';   cur.style.background='#ff2020'; });
 });
 
-/* module logic */
-document.querySelectorAll(".module").forEach(m=>{
-let armed=false;
+const clockEl = document.getElementById('clock');
+const tick = () => clockEl.textContent = new Date().toLocaleTimeString('en-GB');
+tick(); setInterval(tick, 1000);
 
-m.addEventListener("mouseenter",()=>{
-log(`[INFO] Module focused: ${m.dataset.name}`);
-});
+const mods = [...document.querySelectorAll('.mod')];
+const kbds = [1,2,3,4].map(n => document.getElementById('k'+n));
+let focus = -1;
 
-m.addEventListener("click",e=>{
-if(e.target.classList.contains("enter-btn"))return;
-if(!armed){
-armed=true;
-m.classList.add("locked");
-log(`[INFO] Module armed: ${m.dataset.name}`);
-}
-});
-
-m.querySelector(".enter-btn").addEventListener("click",()=>{
-log(`[SYS] Entering module: ${m.dataset.name}`,"ok");
-setTimeout(()=>location.href=m.dataset.link,600);
-});
-});
-
-/* keyboard nav */
-const mods=[...document.querySelectorAll(".module")];
-let focus=-1;
-document.addEventListener("keydown",e=>{
-if(e.key>="1"&&e.key<="4"){
-focus=e.key-1;
-mods.forEach(m=>m.classList.remove("focused"));
-mods[focus].classList.add("focused");
-log(`[INPUT] Module selected: ${mods[focus].dataset.name}`);
-}
-if(e.key==="Enter"&&focus>=0){
-mods[focus].click();
-}
-});
-
-/* scroll awareness */
-let last=0;
-window.addEventListener("scroll",()=>{
-const dir=window.scrollY>last?"down":"up";
-last=window.scrollY;
-log(`[INFO] User scrolling ${dir}`);
-});
-
-/* idle detection */
-let idle;
-document.addEventListener("mousemove",()=>{
-clearTimeout(idle);
-idle=setTimeout(()=>log("[IDLE] Awaiting operator input","warn"),6000);
+document.addEventListener('keydown', e => {
+  const n = parseInt(e.key);
+  if (n >= 1 && n <= 4) {
+    focus = n - 1;
+    kbds.forEach((k,i) => k.classList.toggle('active', i===focus));
+    mods.forEach((m,i) => m.style.outline = i===focus ? '3px solid #0028ff' : 'none');
+  }
+  if (e.key === 'Enter' && focus >= 0) location.href = mods[focus].href;
 });
 </script>
 </body>
